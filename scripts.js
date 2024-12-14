@@ -92,3 +92,60 @@ function expenseAdd(newExpense) {
     console.log(error);
   }
 }
+
+function updateTotals() {
+  try {
+    // Recupera todos os items <li> de <ul>
+    const items = expenseList.children;
+
+    // Atualiza <span>
+    expenseQuantity.textContent = `${items.length} ${
+      items.length > 1 ? "despesas" : "despesa"
+    }`;
+
+    // Increment Total
+
+    let total = 0;
+
+    for(let item = 0; item < items.length; item++){
+      const itemAmount = items[item].querySelector(".expense-amount");
+
+      let value = itemAmount.textContent.replace(/[^\d,]/g, "").replace(",", ".");
+      value = parseFloat(value);
+
+      if(isNaN(value)){
+        return alert("Valor não é um número.");
+      }
+
+      total += Number(value);
+    }
+
+    // Criar <span> do valor total
+    const symbolBRL = document.createElement("small");
+    symbolBRL.textContent = "R$";
+    total = formatCurrencyBRL(total).toUpperCase().replace("R$", "");
+
+    expenseTotal.innerHTML = "";
+    expenseTotal.append(symbolBRL, total);
+  } catch (error) {
+    console.log(error);
+    alert("Não foi possível att o total");
+  }
+}
+
+expenseList.addEventListener("click", function(event) {
+  if(event.target.classList.contains("remove-icon")){
+    const item = event.target.closest(".expense");
+    item.remove();
+  }
+
+  updateTotals();
+})
+
+function formClear(){
+  expense.value = "";
+  category.value = "";
+  amount.value = "";
+
+  expense.focus();
+}
