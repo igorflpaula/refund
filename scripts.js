@@ -23,3 +23,18 @@ function formatCurrencyBRL(value) {
     currency: "BRL",
   });
 }
+
+form.onsubmit = (event) => {
+  event.preventDefault();
+
+  const newExpense = {
+    id: new Date().getTime(),
+    expense: expense.value,
+    category_id: category.value,
+    category_name: category.options[category.selectedIndex].text,
+    amount: amount.value,
+    created_at: new Date(),
+  };
+
+  expenseAdd(newExpense);
+};
