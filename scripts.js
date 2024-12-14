@@ -8,3 +8,11 @@ const category = document.getElementById("category");
 const expenseList = document.querySelector("ul");
 const expenseTotal = document.querySelector("aside header h2");
 const expenseQuantity = document.querySelector("aside header p span");
+
+amount.oninput = () => {
+  let value = amount.value.replace(/\D/g, "");
+
+  value = Number(value) / 100;
+
+  amount.value = formatCurrencyBRL(value);
+};
